@@ -1,3 +1,7 @@
+// Home Cards Component
+// Displays two action cards on the home page - one for job seekers and one for employers
+// Provides quick navigation to key application features
+
 import React from 'react';
 import Card from './Card';
 import { Link } from 'react-router-dom';
@@ -7,7 +11,9 @@ const HomeCards = () => {
     <div>
       <section className="py-4">
         <div className="container-xl lg:container m-auto">
+          {/* Two-column grid layout for the action cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-lg">
+            {/* Card for job seekers */}
             <Card>
               <h2 className="text-2xl font-bold">For Developers</h2>
               <p className="mt-2 mb-4">
@@ -20,6 +26,8 @@ const HomeCards = () => {
                 Browse Jobs
               </Link>
             </Card>
+
+            {/* Card for employers with different background color */}
             <Card bg="bg-indigo-100">
               <h2 className="text-2xl font-bold">For Employers</h2>
               <p className="mt-2 mb-4">

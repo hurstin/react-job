@@ -1,3 +1,7 @@
+// Individual Job Details Page Component
+// Displays comprehensive information about a specific job posting
+// Includes job details, company information, and management actions (edit/delete)
+
 import { useEffect, useState } from 'react';
 import { Link, useLoaderData, useNavigate, useParams } from 'react-router-dom';
 import Spinner from '../components/Spinner';
@@ -7,8 +11,12 @@ import { toast } from 'react-toastify';
 const JobPage = ({ deleteJob }) => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const job = useLoaderData();
+  const job = useLoaderData(); // Job data loaded by React Router loader
 
+  /**
+   * Handles job deletion with confirmation dialog
+   * @param {string} jobId - The ID of the job to delete
+   */
   const onDeleteClick = (jobId) => {
     const confirm = window.confirm(
       'Are you sure you want to delete this listings?'
@@ -22,6 +30,10 @@ const JobPage = ({ deleteJob }) => {
 
     navigate('/jobs');
   };
+  /**
+   * Legacy code - previously used useState and useEffect for data fetching
+   * Now replaced with React Router's loader for better performance
+   */
   //   const [job, setJob] = useState(null);
   //   const [loading, setLoading] = useState(true);
 
@@ -45,7 +57,7 @@ const JobPage = ({ deleteJob }) => {
 
   return (
     <>
-      {/* <!-- Go Back --> */}
+      {/* Navigation breadcrumb - back to jobs listing */}
       <section>
         <div className="container m-auto py-6 px-6">
           <Link
@@ -57,10 +69,14 @@ const JobPage = ({ deleteJob }) => {
         </div>
       </section>
 
+      {/* Main job details section */}
       <section className="bg-indigo-50">
         <div className="container m-auto py-10 px-6">
+          {/* Two-column layout: main content and sidebar */}
           <div className="grid grid-cols-1 md:grid-cols-70/30 w-full gap-6">
+            {/* Main content area */}
             <main>
+              {/* Job header card */}
               <div className="bg-white p-6 rounded-lg shadow-md text-center md:text-left">
                 <div className="text-gray-500 mb-4">{job.type}</div>
                 <h1 className="text-3xl font-bold mb-4">{job.title}</h1>
@@ -70,6 +86,7 @@ const JobPage = ({ deleteJob }) => {
                 </div>
               </div>
 
+              {/* Job description and salary card */}
               <div className="bg-white p-6 rounded-lg shadow-md mt-6">
                 <h3 className="text-indigo-800 text-lg font-bold mb-6">
                   Job Description
@@ -85,9 +102,9 @@ const JobPage = ({ deleteJob }) => {
               </div>
             </main>
 
-            {/* <!-- Sidebar --> */}
+            {/* Sidebar with company info and management actions */}
             <aside>
-              {/* <!-- Company Info --> */}
+              {/* Company information card */}
               <div className="bg-white p-6 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-6">Company Info</h3>
 
@@ -110,7 +127,7 @@ const JobPage = ({ deleteJob }) => {
                 </p>
               </div>
 
-              {/* <!-- Manage --> */}
+              {/* Job management actions */}
               <div className="bg-white p-6 rounded-lg shadow-md mt-6">
                 <h3 className="text-xl font-bold mb-6">Manage Job</h3>
                 <Link
@@ -134,6 +151,12 @@ const JobPage = ({ deleteJob }) => {
   );
 };
 
+/**
+ * React Router loader function for fetching job data
+ * Runs before the component renders to pre-load job information
+ * @param {Object} params - Route parameters containing the job ID
+ * @returns {Promise<Object>} - The job data object
+ */
 const jobLoader = async ({ params }) => {
   const res = await fetch(`/api/jobs/${params.id}`);
   const data = await res.json();

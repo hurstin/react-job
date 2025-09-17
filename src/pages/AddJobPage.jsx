@@ -1,8 +1,13 @@
+// Add Job Page Component
+// Form for creating new job postings with comprehensive job and company information
+// Handles form submission and validation for new job creation
+
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const AddJobPage = ({ addJobSubmit }) => {
+  // Form state management for all job and company fields
   const [title, setTitle] = useState('');
   const [type, setType] = useState('Full-Time');
   const [location, setLocation] = useState('');
@@ -15,9 +20,14 @@ const AddJobPage = ({ addJobSubmit }) => {
 
   const navigate = useNavigate();
 
+  /**
+   * Handles form submission for creating a new job
+   * @param {Event} e - Form submission event
+   */
   const submitForm = (e) => {
     e.preventDefault();
 
+    // Construct job object with nested company information
     const newJob = {
       title,
       type,
@@ -31,10 +41,14 @@ const AddJobPage = ({ addJobSubmit }) => {
         contactPhone,
       },
     };
+
+    // Submit job to parent component's handler
     addJobSubmit(newJob);
 
+    // Show success notification
     toast.success('added successfully');
 
+    // Navigate back to jobs listing
     return navigate('/jobs');
   };
 
@@ -43,8 +57,10 @@ const AddJobPage = ({ addJobSubmit }) => {
       <div className="container m-auto max-w-2xl py-24">
         <div className="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0">
           <form onSubmit={submitForm}>
+            {/* Form header */}
             <h2 className="text-3xl text-center font-semibold mb-6">Add Job</h2>
 
+            {/* Job Type Selection */}
             <div className="mb-4">
               <label
                 htmlFor="type"
@@ -145,6 +161,7 @@ const AddJobPage = ({ addJobSubmit }) => {
               />
             </div>
 
+            {/* Company Information Section */}
             <h3 className="text-2xl mb-5">Company Info</h3>
 
             <div className="mb-4">
@@ -219,6 +236,7 @@ const AddJobPage = ({ addJobSubmit }) => {
               />
             </div>
 
+            {/* Submit Button */}
             <div>
               <button
                 className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
